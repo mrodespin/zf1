@@ -134,7 +134,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      */
     protected function _parseParameters($sql)
     {
-        $sql = $this->_stripQuoted($sql);
+        $sql = ($sql !== null) ? $this->_stripQuoted($sql) : '';
 
         // split into text and params
         $this->_sqlSplit = preg_split('/(\?|\:[a-zA-Z0-9_]+)/',
@@ -176,7 +176,6 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      */
     protected function _stripQuoted($sql)
     {
-
         // get the character for value quoting
         // this should be '
         $q = $this->_adapter->quote('a');

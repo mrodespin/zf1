@@ -817,10 +817,9 @@ class Zend_Db_Select
             $tableName = $name;
             $correlationName = $this->_uniqueCorrelation($tableName);
         }
-        $tableName = $tableName ?? '';
 
         // Schema from table name overrides schema argument
-        if (!is_object($tableName) && false !== strpos($tableName, '.')) {
+        if ($tableName && !is_object($tableName) && (strpos($tableName, '.') !== false)) {
             list($schema, $tableName) = explode('.', $tableName);
         }
 
