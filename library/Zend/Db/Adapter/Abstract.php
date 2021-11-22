@@ -875,11 +875,12 @@ abstract class Zend_Db_Adapter_Abstract
             return implode(', ', $value);
         }
 
+        $value = $value ?? '';
         if ($type !== null && array_key_exists($type = strtoupper($type), $this->_numericDataTypes)) {
             $quotedValue = '0';
             switch ($this->_numericDataTypes[$type]) {
                 case Zend_Db::INT_TYPE: // 32-bit integer
-                    $quotedValue = (string) intval($value);
+                    $quotedValue = (string) ((int) $value);
                     break;
                 case Zend_Db::BIGINT_TYPE: // 64-bit integer
                     // ANSI SQL-style hex literals (e.g. x'[\dA-F]+')
@@ -893,7 +894,7 @@ abstract class Zend_Db_Adapter_Abstract
                             (?:[eE][+-]?\d+)?    # optional exponent on decimals or octals
                           )
                         )/x',
-                        (string) $value, $matches)) {
+                        $value, $matches)) {
                         $quotedValue = $matches[1];
                     }
                     break;
@@ -928,8 +929,7 @@ abstract class Zend_Db_Adapter_Abstract
     public function quoteInto($text, $value, $type = null, $count = null)
     {
         if ($count === null) {
-            $quote = $this->quote($value, $type) ?? '""';
-            return str_replace('?', $quote, $text);
+            return str_replace('?', $this->quote($value, $type), $text);
         } else {
             return implode($this->quote($value, $type), explode('?', $text, $count + 1));
         }
