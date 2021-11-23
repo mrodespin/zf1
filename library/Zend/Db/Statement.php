@@ -64,35 +64,35 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      *
      * @var array
      */
-    protected $_attribute = array();
+    protected $_attribute = [];
 
     /**
      * Column result bindings.
      *
      * @var array
      */
-    protected $_bindColumn = array();
+    protected $_bindColumn = [];
 
     /**
      * Query parameter bindings; covers bindParam() and bindValue().
      *
      * @var array
      */
-    protected $_bindParam = array();
+    protected $_bindParam = [];
 
     /**
      * SQL string split into an array at placeholders.
      *
      * @var array
      */
-    protected $_sqlSplit = array();
+    protected $_sqlSplit = [];
 
     /**
      * Parameter placeholders in the SQL string by position in the split array.
      *
      * @var array
      */
-    protected $_sqlParam = array();
+    protected $_sqlParam = [];
 
     /**
      * @var Zend_Db_Profiler_Query
@@ -134,14 +134,17 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      */
     protected function _parseParameters($sql)
     {
-        $sql = ($sql !== null) ? $this->_stripQuoted($sql) : '';
-
-        // split into text and params
-        $this->_sqlSplit = preg_split('/(\?|\:[a-zA-Z0-9_]+)/',
-            $sql, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+        if ($sql !== null) {
+            $this->_sqlSplit = preg_split(
+                '/(\?|\:[a-zA-Z0-9_]+)/',
+                $this->_stripQuoted($sql),
+                -1,
+                PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY
+            );
+        }
 
         // map params
-        $this->_sqlParam = array();
+        $this->_sqlParam = [];
         foreach ($this->_sqlSplit as $key => $val) {
             if ($val == '?') {
                 if ($this->_adapter->supportsParameters('positional') === false) {
@@ -164,7 +167,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
         }
 
         // set up for binding
-        $this->_bindParam = array();
+        $this->_bindParam = [];
     }
 
     /**

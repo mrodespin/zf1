@@ -894,7 +894,7 @@ abstract class Zend_Db_Adapter_Abstract
                             (?:[eE][+-]?\d+)?    # optional exponent on decimals or octals
                           )
                         )/x',
-                        $value, $matches)) {
+                        (string) $value, $matches)) {
                         $quotedValue = $matches[1];
                     }
                     break;
