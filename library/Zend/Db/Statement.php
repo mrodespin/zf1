@@ -134,10 +134,12 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
      */
     protected function _parseParameters($sql)
     {
+        $this->_sqlSplit = [];
         if ($sql !== null) {
+            $sql = $this->_stripQuoted($sql);
             $this->_sqlSplit = preg_split(
                 '/(\?|\:[a-zA-Z0-9_]+)/',
-                $this->_stripQuoted($sql),
+                $sql,
                 -1,
                 PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY
             );

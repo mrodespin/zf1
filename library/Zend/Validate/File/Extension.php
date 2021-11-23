@@ -132,6 +132,7 @@ class Zend_Validate_File_Extension extends Zend_Validate_Abstract
      */
     public function setExtension($extension)
     {
+        $this->_extension = '';
         $this->addExtension($extension);
         return $this;
     }
