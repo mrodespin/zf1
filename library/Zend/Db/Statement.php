@@ -199,8 +199,8 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
         }
 
         if ($sql === null) {
-            // this preg_replace may return NULL in case of error (PREG_BACKTRACK_LIMIT_ERROR).
-            // In that case the result of this method will be an empty string.
+            // this preg_replace call can return NULL in case of error (PREG_BACKTRACK_LIMIT_ERROR).
+            // In this case the result of this method will be an empty string.
             return '';
         }
 
